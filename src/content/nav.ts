@@ -1,18 +1,28 @@
-export const NAV_LINKS = [
+interface NavLink {
+  name: string;
+  href: string;
+  type: 'scroll' | 'route';
+}
+
+export const NAV_LINKS: NavLink[] = [
   {
     name: "Home",
-    href: "/",
+    href: "#hero",
+    type: "scroll",
   },
   {
-    name: "About",
+    name: "About Us",
     href: "#about",
+    type: "scroll",
+  },
+  {
+    name: "Contact Us",
+    href: "#contact",
+    type: "scroll",
   },
   {
     name: "Services",
-    href: "#services",
-  },
-  {
-    name: "Portfolio",
-    href: "#portfolio",
+    href: "/services",
+    type: "route",
   },
 ];

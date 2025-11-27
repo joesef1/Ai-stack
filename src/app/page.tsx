@@ -12,14 +12,18 @@ import ContactSection from "@/components/contact";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <HeroSection />
+      <div id="hero">
+        <HeroSection />
+      </div>
       <AboutUsSection />
       {/* <ServicesSection /> */}
       <ServicesSection2 />
       <PortfolioSection />
       <StatsSection />
       <Testimonials />
-      <ContactSection />
+      <div id="contact">
+        <ContactSection />
+      </div>
       <FooterSection />
     </main>
   );

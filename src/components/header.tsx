@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { NAV_LINKS } from "@/content/nav";
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const pathname = usePathname();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,32 @@ export const HeroHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (e: React.MouseEvent, link: typeof NAV_LINKS[0]) => {
+    if (link.type === 'scroll') {
+      e.preventDefault();
+
+      // If we're not on the home page, navigate to home with hash
+      if (pathname !== '/') {
+        window.location.href = `/${link.href}`;
+        setMenuState(false);
+        return;
+      }
+
+      // If we're on home page, scroll to section
+      const targetId = link.href.replace('#', '');
+      const element = document.getElementById(targetId);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        setMenuState(false); // Close mobile menu after scroll
+      }
+    }
+    // For route type, let Next.js Link handle navigation
+  };
   return (
     <header>
       <nav
@@ -28,7 +56,7 @@ export const HeroHeader = () => {
           className={cn(
             "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
             isScrolled &&
-              "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
+            "bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5"
           )}
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
@@ -55,12 +83,25 @@ export const HeroHeader = () => {
               <ul className="flex gap-8 text-sm">
                 {NAV_LINKS.map((item, index) => (
                   <li key={index}>
-                    <Link
-                      href={item.href}
-                      className=" hover:text-accent-foreground block duration-150"
-                    >
-                      <span>{item.name}</span>
-                    </Link>
+                    {item.type === 'scroll' ? (
+                      <a
+                        href={item.href}
+                        onClick={(e) => handleNavClick(e, item)}
+                        className="hover:text-accent-foreground block cursor-pointer duration-150"
+                      >
+                        <span>{item.name}</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "hover:text-accent-foreground block duration-150",
+                          pathname === item.href && "text-accent-foreground font-medium"
+                        )}
+                      >
+                        <span>{item.name}</span>
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -71,12 +112,25 @@ export const HeroHeader = () => {
                 <ul className="space-y-6 text-base">
                   {NAV_LINKS.map((item, index) => (
                     <li key={index}>
-                      <Link
-                        href={item.href}
-                        className="text-muted-foreground hover:text-accent-foreground block duration-150"
-                      >
-                        <span>{item.name}</span>
-                      </Link>
+                      {item.type === 'scroll' ? (
+                        <a
+                          href={item.href}
+                          onClick={(e) => handleNavClick(e, item)}
+                          className="text-muted-foreground hover:text-accent-foreground block cursor-pointer duration-150"
+                        >
+                          <span>{item.name}</span>
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "text-muted-foreground hover:text-accent-foreground block duration-150",
+                            pathname === item.href && "text-accent-foreground font-medium"
+                          )}
+                        >
+                          <span>{item.name}</span>
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
