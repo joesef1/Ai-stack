@@ -108,7 +108,7 @@ export default function ServicesSection2() {
                             height="480"
                             width="720"
                             loading="lazy"
-                            className=" object-cover  transition-all duration-500 w-full  aspect-[16/9]"
+                            className=" object-cover  transition-all duration-500 w-full  aspect-[7/5]"
                           />
                         </Link>
                       </InView>

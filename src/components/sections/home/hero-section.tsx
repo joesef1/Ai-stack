@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
-import LogoCloud from "@/components/sections/home/logo-cloud";
+// import LogoCloud from "@/components/sections/home/logo-cloud";
 
 const transitionVariants = {
   item: {
@@ -186,7 +186,7 @@ export default function HeroSection() {
               </div>
             </div>
           </div>
-          <AnimatedGroup
+          {/* <AnimatedGroup
             variants={{
               container: {
                 visible: {
@@ -202,7 +202,7 @@ export default function HeroSection() {
             <div className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
               <LogoCloud />
             </div>
-          </AnimatedGroup>
+          </AnimatedGroup> */}
         </section>
       </div>
     </>

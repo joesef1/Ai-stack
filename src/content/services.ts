@@ -1,16 +1,17 @@
 export const SERVICES_LIST = [
   {
-    name: "Website Development",
+    name: "Artificial Intelligence Solutions",
     tags: [
-      "Professional and Corporate Websites",
-      "Educational Platforms",
-      "Online Stores"
+      "Machine Learning",
+      "Predictive Analytics",
+      "Integrated Solutions for Intelligent Automation (RPA)"
     ],
-    img: "/images/web.jpg",
+    img: "/images/ai-solutions.png",
     url: "#",
     description:
-      "Innovative website designs that boost credibility and enhance user experience."
+      "AI-powered insights for smarter decisions and future growth."
   },
+  
   {
     name: "Application Development",
     tags: [
@@ -24,15 +25,15 @@ export const SERVICES_LIST = [
       "Smart apps to optimize performance and increase engagement."
   },
   {
-    name: "Artificial Intelligence Solutions",
+    name: "Website Development",
     tags: [
-      "Machine Learning",
-      "Predictive Analytics",
-      "Integrated Solutions for Intelligent Automation (RPA)"
+      "Professional and Corporate Websites",
+      "Educational Platforms",
+      "Online Stores"
     ],
-    img: "/images/ai2.avif",
+    img: "/images/web.jpg",
     url: "#",
     description:
-      "AI-powered insights for smarter decisions and future growth."
-  }
+      "Innovative website designs that boost credibility and enhance user experience."
+  },
 ];
