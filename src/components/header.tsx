@@ -6,12 +6,19 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS } from "@/content/nav";
+import { NAV_LINKS, NAV_TRANSLATION_KEYS } from "@/content/nav";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { useLanguage } from "@/contexts/language-context";
 
 export const HeroHeader = () => {
   const [menuState, setMenuState] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const pathname = usePathname();
+  const { t } = useLanguage();
+
+  const getTranslatedName = (name: string) => {
+    return t(NAV_TRANSLATION_KEYS[name] || name);
+  };
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -89,7 +96,7 @@ export const HeroHeader = () => {
                         onClick={(e) => handleNavClick(e, item)}
                         className="hover:text-accent-foreground block cursor-pointer duration-150"
                       >
-                        <span>{item.name}</span>
+                        <span>{getTranslatedName(item.name)}</span>
                       </a>
                     ) : (
                       <Link
@@ -99,7 +106,7 @@ export const HeroHeader = () => {
                           pathname === item.href && "text-accent-foreground font-medium"
                         )}
                       >
-                        <span>{item.name}</span>
+                        <span>{getTranslatedName(item.name)}</span>
                       </Link>
                     )}
                   </li>
@@ -118,7 +125,7 @@ export const HeroHeader = () => {
                           onClick={(e) => handleNavClick(e, item)}
                           className="text-muted-foreground hover:text-accent-foreground block cursor-pointer duration-150"
                         >
-                          <span>{item.name}</span>
+                          <span>{getTranslatedName(item.name)}</span>
                         </a>
                       ) : (
                         <Link
@@ -128,7 +135,7 @@ export const HeroHeader = () => {
                             pathname === item.href && "text-accent-foreground font-medium"
                           )}
                         >
-                          <span>{item.name}</span>
+                          <span>{getTranslatedName(item.name)}</span>
                         </Link>
                       )}
                     </li>
@@ -136,16 +143,7 @@ export const HeroHeader = () => {
                 </ul>
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                {/* <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(isScrolled && "lg:hidden")}
-                >
-                  <Link href="#">
-                    <span>Login</span>
-                  </Link>
-                </Button> */}
+                <LanguageSwitcher />
                 <Button
                   asChild
                   size="sm"

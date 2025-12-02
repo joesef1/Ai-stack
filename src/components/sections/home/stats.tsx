@@ -1,20 +1,23 @@
 "use client";
 import { ScrollView } from "@/components/scroll-view";
 import { motion } from "motion/react";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function StatsSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-12 md:py-20" id="stats">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
           <ScrollView>
             <h2 className="text-4xl font-medium lg:text-5xl">
-              Driven by Design. Backed by Results.
+              {t("statsTitle")}
             </h2>
           </ScrollView>
           <ScrollView delay={0.2}>
             <p>
-              At ai-stack, our applications aren’t just beautiful — they’re built to solve problems, engage users, and deliver results. Whether you’re beginning or improving, we’ve got you covered.
+              {t("statsDescription")}
             </p>
           </ScrollView>
         </div>
@@ -32,7 +35,7 @@ export default function StatsSection() {
               className="space-y-4"
             >
               <div className="text-5xl font-bold">+120</div>
-              <p>Projects Launched</p>
+              <p>{t("projectsLaunched")}</p>
             </motion.div>
             <motion.div
               variants={{
@@ -46,7 +49,7 @@ export default function StatsSection() {
               className="space-y-4"
             >
               <div className="text-5xl font-bold">40%</div>
-              <p>Average Client Growth</p>
+              <p>{t("averageClientGrowth")}</p>
             </motion.div>
             <motion.div
               variants={{
@@ -60,7 +63,7 @@ export default function StatsSection() {
               className="space-y-4"
             >
               <div className="text-5xl font-bold">5+</div>
-              <p>Years in the Game</p>
+              <p>{t("yearsInGame")}</p>
             </motion.div>
           </div>
         </ScrollView>

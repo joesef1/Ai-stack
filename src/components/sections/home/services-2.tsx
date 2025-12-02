@@ -1,3 +1,4 @@
+"use client";
 import { CustomCursorElement } from "@/components/custom-cursor-element";
 import { InView } from "@/components/motion-primitives/in-view";
 import { ScrollView, ScrollViewStaggerWrapper } from "@/components/scroll-view";
@@ -5,29 +6,30 @@ import { Badge } from "@/components/ui/badge";
 import { SERVICES_LIST } from "@/content/services";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/language-context";
+import { translateService } from "@/content/services-translations";
 
 export default function ServicesSection2() {
+  const { t, language } = useLanguage();
+
   return (
     <section className="py-16 md:py-32" id="services">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
           <ScrollView>
             <h2 className="text-4xl font-medium lg:text-5xl">
-              Design That Works for You
+              {t("servicesTitle")}
             </h2>
           </ScrollView>
           <ScrollView delay={0.2}>
             <p>
-              At Lume Studio, we create designs that are more than just visually
-              appealing. They&apos;re built to solve problems, connect with
-              audience, and drive results. <br /> Whether you’re starting fresh
-              or refining your existing identity, <br /> we’ve got you covered.
+              {t("servicesDescription")}
             </p>
           </ScrollView>
         </div>
         <div className="mt-12 md:mt-24">
           <div className="space-y-10">
-            {SERVICES_LIST.map((service, index) => (
+            {SERVICES_LIST.map((service) => (
               <div
                 key={service.name}
                 className="group overflow-hidden border-b py-10"
@@ -38,7 +40,7 @@ export default function ServicesSection2() {
                       <div className="space-y-4">
                         <ScrollView>
                           <h3 className="text-title text-2xl font-medium">
-                            {service.name}
+                            {translateService(service.name, language)}
                           </h3>
                         </ScrollView>
 
@@ -51,7 +53,7 @@ export default function ServicesSection2() {
                                     className="mr-2 mb-2"
                                     variant="secondary"
                                   >
-                                    {tag}
+                                    {translateService(tag, language)}
                                   </Badge>
                                 </ScrollViewStaggerWrapper>
                               </div>
@@ -61,7 +63,7 @@ export default function ServicesSection2() {
                       </div>
                       <ScrollView delay={0.04}>
                         <p className="text-muted-foreground">
-                          {service.description}
+                          {translateService(service.description, language)}
                         </p>
                       </ScrollView>
                     </div>
@@ -70,7 +72,7 @@ export default function ServicesSection2() {
                     <CustomCursorElement
                       cursor={
                         <div className="text-zinc-950 text-lg font-medium">
-                          View
+                          {t("view")}
                         </div>
                       }
                     >
@@ -105,10 +107,10 @@ export default function ServicesSection2() {
                           <Image
                             src={service.img}
                             alt={service.name}
-                            height="480"
-                            width="720"
+                            height="360"
+                            width="540"
                             loading="lazy"
-                            className=" object-cover  transition-all duration-500 w-full  aspect-[7/5]"
+                            className=" object-cover  transition-all duration-500 w-3/4  aspect-[7/5]"
                           />
                         </Link>
                       </InView>

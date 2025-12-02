@@ -1,44 +1,43 @@
-import { Circle, Cpu, Lock, Sparkles, Zap } from "lucide-react";
+"use client";
+import { Circle } from "lucide-react";
 import { ScrollView } from "./scroll-view";
 import Image from "next/image";
-
-const ourPrinciples = [
-  {
-    title: "On-Time Delivery",
-    description:
-      "We ensure timely project delivery to help you achieve your goals as quickly as possible.",
-  },
-  {
-    title: "Quality ",
-    description:
-      "We adhere to the highest quality standards to provide you with an exceptional experience that drives your project's success.",
-  },
-
-  {
-    title: "Innovation",
-    description:
-      "We deliver creative and unique solutions tailored to your business needs, helping you stand out.",
-  },
-  {
-    title: "Continuous Communication",
-    description:
-      "We provide comprehensive support and ongoing communication to ensure your complete satisfaction with our services.",
-  },
-];
+import { useLanguage } from "@/contexts/language-context";
 
 export default function ContentSection() {
+  const { t } = useLanguage();
+
+  const ourPrinciples = [
+    {
+      title: t("onTimeDelivery"),
+      description: t("onTimeDeliveryDesc"),
+    },
+    {
+      title: t("quality"),
+      description: t("qualityDesc"),
+    },
+    {
+      title: t("innovation"),
+      description: t("innovationDesc"),
+    },
+    {
+      title: t("continuousCommunication"),
+      description: t("continuousCommunicationDesc"),
+    },
+  ];
+
   return (
     <section className="py-16 md:py-32" id="about">
       <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-12">
         <div className="mx-auto max-w-xl space-y-6 text-center md:space-y-12">
           <ScrollView>
             <h2 className="text-balance text-4xl font-medium lg:text-5xl">
-              About Us
+              {t("aboutTitle")}
             </h2>
           </ScrollView>
           <ScrollView>
             <p>
-              At ai-stack, our applications aren’t just beautiful — they’re built to solve problems, engage users, and deliver results. Whether you’re beginning or improving, we’ve got you covered.
+              {t("aboutUsDesc")}
             </p>
           </ScrollView>
         </div>

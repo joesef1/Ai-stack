@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import { TextEffect } from "@/components/motion-primitives/text-effect";
 import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
+import { useLanguage } from "@/contexts/language-context";
 // import LogoCloud from "@/components/sections/home/logo-cloud";
 
 const transitionVariants = {
@@ -28,6 +29,8 @@ const transitionVariants = {
 };
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <>
       <div className="overflow-hidden min-h-screen">
@@ -105,7 +108,7 @@ export default function HeroSection() {
                   as="h1"
                   className="mt-8 text-balance text-5xl md:text-7xl lg:mt-16 xl:text-[5.25rem] font-semibold"
                 >
-                  Digital solutions that drive your Vision 2030 ambitions.
+                  {t("heroTitle")}
                 </TextEffect>
                 <TextEffect
                   per="line"
@@ -115,7 +118,7 @@ export default function HeroSection() {
                   as="p"
                   className="mx-auto mt-8 max-w-2xl text-balance text-lg"
                 >
-                  Discover how AI-STACK can contribute to your business growth through web development, applications, and AI solutions that support your digital transformation in line with Vision 2030. We provide innovative and efficient services to enhance your efficiency and digital presence.
+                  {t("heroDescription")}
                 </TextEffect>
 
                 <AnimatedGroup
@@ -154,7 +157,7 @@ export default function HeroSection() {
                           }
                         }}
                       >
-                        <span className="text-nowrap">Read More</span>
+                        <span className="text-nowrap">{t("readMore")}</span>
                         <ArrowDown className="size-5" />
                       </a>
                     </Button>
@@ -179,7 +182,7 @@ export default function HeroSection() {
                         }
                       }}
                     >
-                      <span className="text-nowrap">Contact Us</span>
+                      <span className="text-nowrap">{t("contactUs")}</span>
                     </a>
                   </Button>
                 </AnimatedGroup>

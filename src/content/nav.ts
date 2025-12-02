@@ -26,3 +26,11 @@ export const NAV_LINKS: NavLink[] = [
     type: "route",
   },
 ];
+
+// Translation keys mapping
+export const NAV_TRANSLATION_KEYS: Record<string, string> = {
+  "Home": "home",
+  "About Us": "about",
+  "Contact Us": "contact",
+  "Services": "services",
+};

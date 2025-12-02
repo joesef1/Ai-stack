@@ -4,8 +4,11 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ScrollView } from "./scroll-view";
 import { FOOTER_LINKS } from "@/content/footer";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function FooterSection() {
+  const { t } = useLanguage();
+
   return (
     <footer className="py-16 md:py-32">
       <div className="mx-auto max-w-5xl px-6">
@@ -175,7 +178,7 @@ export default function FooterSection() {
         <ScrollView delay={0.2} viewMargin="0px 0px -20px 0px">
           <span className="text-muted-foreground block text-center text-sm">
             {" "}
-            © {new Date().getFullYear()} AI Stack , All rights reserved
+            © {new Date().getFullYear()} AI Stack , {t("allRightsReserved")}
           </span>
         </ScrollView>
       </div>

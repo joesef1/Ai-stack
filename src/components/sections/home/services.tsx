@@ -11,28 +11,10 @@ import {
   MorphingDialogContainer,
 } from "@/components/motion-primitives/morphing-dialog";
 import { ScrollView, ScrollViewStaggerWrapper } from "@/components/scroll-view";
-import { ArrowRight, PlusIcon } from "lucide-react";
-
-const services = [
-  {
-    title: "Branding",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-    image: "/images/abstract-3.png",
-  },
-  {
-    title: "Branding",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-    image: "/images/abstract-4.png",
-  },
-  {
-    title: "Branding",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-    image: "/images/abstract-5.png",
-  },
-];
+import { ArrowRight } from "lucide-react";
+import { SERVICES_DETAILED } from "@/content/services";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 export default function ServicesSection() {
   return (
@@ -54,14 +36,14 @@ export default function ServicesSection() {
         </div>
         <ScrollView stagger delay={0.02}>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
-            {services.map((service, index) => (
+            {SERVICES_DETAILED.map((service) => (
               <MorphingDialog
                 transition={{
                   type: "spring",
                   bounce: 0.05,
                   duration: 0.25,
                 }}
-                key={service.title + index}
+                key={service.slug}
               >
                 <MorphingDialogTrigger
                   style={{
@@ -72,7 +54,7 @@ export default function ServicesSection() {
                   <ScrollViewStaggerWrapper className="h-full w-full">
                     <MorphingDialogImage
                       src={service.image}
-                      alt="A desk lamp designed by Edouard Wilfrid Buquet in 1925. It features a double-arm design and is made from nickel-plated brass, aluminium and varnished wood."
+                      alt={service.title}
                       className="h-full w-full   absolute  "
                     />
                     <div className="z-10 flex flex-col justify-between h-full w-full py-5 px-4">
@@ -92,7 +74,7 @@ export default function ServicesSection() {
                       </div>
                       <div className="flex justify-between items-center z-20 p-5 rounded-2xl relative bg-secondary">
                         <MorphingDialogTitle className="">
-                          {index + 1}
+                          {service.id}
                         </MorphingDialogTitle>
                         <MorphingDialogSubtitle className="">
                           {service.title}
@@ -110,13 +92,13 @@ export default function ServicesSection() {
                   >
                     <MorphingDialogImage
                       src={service.image}
-                      alt="A desk lamp designed by Edouard Wilfrid Buquet in 1925. It features a double-arm design and is made from nickel-plated brass, aluminium and varnished wood."
+                      alt={service.title}
                       className="h-full w-full"
                     />
                     <div className="p-6">
                       <div className="flex items-center gap-4">
                         <MorphingDialogTitle className="text-2xl text-zinc-700 dark:text-zinc-400">
-                          {index + 1} {" ."}
+                          {service.id} {" ."}
                         </MorphingDialogTitle>
                         <MorphingDialogSubtitle className="text-2xl text-zinc-950 dark:text-zinc-50">
                           {service.title}
@@ -130,18 +112,29 @@ export default function ServicesSection() {
                           exit: { opacity: 0, scale: 0.8, y: 100 },
                         }}
                       >
-                        <p className="mt-2 text-zinc-500 dark:text-zinc-500">
+                        <p className="mt-4 text-zinc-500 dark:text-zinc-500">
                           {service.description}
                         </p>
 
-                        <a
-                          className="mt-2 inline-flex text-zinc-500 underline"
-                          href="https://www.are.na/block/12759029"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <div className="mt-4">
+                          <h4 className="text-sm font-medium text-zinc-950 dark:text-zinc-50 mb-2">
+                            Key Features
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {service.tags.map((tag, index) => (
+                              <Badge key={index} variant="secondary" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <Link
+                          className="mt-4 inline-flex text-zinc-500 underline hover:text-zinc-950 dark:hover:text-zinc-50"
+                          href={service.url}
                         >
-                          Are.na block
-                        </a>
+                          View Details →
+                        </Link>
                       </MorphingDialogDescription>
                     </div>
                     <MorphingDialogClose className="text-zinc-50" />
