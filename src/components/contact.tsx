@@ -5,12 +5,145 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from "next/link";
 import { ScrollView } from "./scroll-view";
 import { useLanguage } from "@/contexts/language-context";
+import { useState, useEffect } from "react";
+
+interface ContactFormData {
+  serviceId: number;
+  name: string;
+  eMail: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+interface Service {
+  id: number;
+  serviceNameAR: string;
+  serviceNameEN: string;
+}
 
 export default function FeaturesSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoadingServices, setIsLoadingServices] = useState(true);
+  const [formData, setFormData] = useState<ContactFormData>({
+    serviceId: 1,
+    name: "",
+    eMail: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
+  // Fetch services on component mount
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch(
+          "https://ai-stack.tryasp.net/api/ServiceType/GetServicesList"
+        );
+        const result = await response.json();
+
+        if (result.succeeded && result.data) {
+          setServices(result.data);
+          // Set first service as default if available
+          if (result.data.length > 0) {
+            setFormData((prev) => ({ ...prev, serviceId: result.data[0].id }));
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      } finally {
+        setIsLoadingServices(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
+
+    try {
+      const response = await fetch("https://ai-stack.tryasp.net/api/Contact/Add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: "success",
+          message:
+            t("contactSuccessMessage") ||
+            "Thank you! Your message has been sent successfully.",
+        });
+        // Reset form
+        setFormData({
+          serviceId: services.length > 0 ? services[0].id : 1,
+          name: "",
+          eMail: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        const errorData = await response.json().catch(() => null);
+        setSubmitStatus({
+          type: "error",
+          message:
+            errorData?.message ||
+            t("contactErrorMessage") ||
+            "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: "error",
+        message:
+          t("contactErrorMessage") ||
+          "Failed to send message. Please check your connection and try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleServiceChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      serviceId: parseInt(value),
+    }));
+  };
 
   return (
     <section className="py-16 md:py-32 bg-gray-50 dark:bg-transparent">
@@ -24,21 +157,25 @@ export default function FeaturesSection() {
                 </h2>
               </ScrollView>
               <ScrollView>
-                <p className="mt-6">
-                  {t("contactFormDesc")}
-                </p>
+                <p className="mt-6">{t("contactFormDesc")}</p>
               </ScrollView>
             </div>
             <ScrollView delay={0.2}>
               <ul className="mt-8 divide-y border-y *:flex *:items-center *:gap-3 *:py-3">
                 <li>
-                  <Link href="#link" className="hover:text-accent-foreground">
+                  <Link
+                    href="mailto:info@ai-stack.net"
+                    className="hover:text-accent-foreground"
+                  >
                     <Mail className="size-5 mr-2 inline" />
                     <span>info@ai-stack.net</span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="#link" className="hover:text-accent-foreground">
+                  <Link
+                    href="tel:+966501246756"
+                    className="hover:text-accent-foreground"
+                  >
                     <PhoneCall className="size-5 mr-2 inline" />
                     <span>+966 50 124 6756</span>
                   </Link>
@@ -53,31 +190,110 @@ export default function FeaturesSection() {
                   <h3 className="text-lg font-semibold">
                     {t("letsGetYouToTheRightPlace")}
                   </h3>
-                  <p className="mt-4 text-sm">
-                    {t("reachOutDesc")}
-                  </p>
+                  <p className="mt-4 text-sm">{t("reachOutDesc")}</p>
                 </div>
 
                 <form
-                  action=""
+                  onSubmit={handleSubmit}
                   className="**:[&>label]:block mt-12 space-y-6 *:space-y-3"
                 >
                   <div>
+                    <Label htmlFor="serviceId">{t("selectService")}</Label>
+                    <Select
+                      value={formData.serviceId.toString()}
+                      onValueChange={handleServiceChange}
+                      disabled={isSubmitting || isLoadingServices}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={t("selectServicePlaceholder")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {services.map((service) => (
+                          <SelectItem key={service.id} value={service.id.toString()}>
+                            {language === "ar"
+                              ? service.serviceNameAR
+                              : service.serviceNameEN}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
                     <Label htmlFor="name">{t("fullName")}</Label>
-                    <Input type="text" id="name" required />
+                    <Input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                    />
                   </div>
 
                   <div>
-                    <Label htmlFor="email">{t("workEmail")}</Label>
-                    <Input type="email" id="email" required />
+                    <Label htmlFor="eMail">{t("workEmail")}</Label>
+                    <Input
+                      type="email"
+                      id="eMail"
+                      value={formData.eMail}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                    />
                   </div>
 
                   <div>
-                    <Label htmlFor="msg">{t("message")}</Label>
-                    <Textarea id="msg" rows={3} />
+                    <Label htmlFor="phone">{t("phone")}</Label>
+                    <Input
+                      type="tel"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                      placeholder="+966 50 000 0000"
+                    />
                   </div>
 
-                  <Button>{t("submit")}</Button>
+                  <div>
+                    <Label htmlFor="subject">{t("subject")}</Label>
+                    <Input
+                      type="text"
+                      id="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message">{t("message")}</Label>
+                    <Textarea
+                      id="message"
+                      rows={3}
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  {submitStatus.type && (
+                    <div
+                      className={`p-4 rounded-md ${submitStatus.type === "success"
+                        ? "bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+                        : "bg-red-50 text-red-800 dark:bg-red-900/20 dark:text-red-400"
+                        }`}
+                    >
+                      {submitStatus.message}
+                    </div>
+                  )}
+
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? t("sending") || "Sending..." : t("submit")}
+                  </Button>
                 </form>
               </Card>
             </ScrollView>
