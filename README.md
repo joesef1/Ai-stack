@@ -1,6 +1,4 @@
-# Lume Studio - Next.js Template
-
-This project is a Next.js template built with TypeScript, designed for creating stunning websites with smooth animations and modern UI components.
+# AI stack
 
 ## Getting Started
 
@@ -38,10 +36,4 @@ The `ScrollView` component is a utility component that triggers animations when 
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Motion.dev](https://motion.dev/)
 
-## License
 
-MIT
-
-## Full version
-
-For the full version, go to https://lume.kohi.studio/full-version
