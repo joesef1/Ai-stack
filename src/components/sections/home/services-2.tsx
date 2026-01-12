@@ -108,8 +108,7 @@ export default function ServicesSection2() {
                             height="250"
                             width="640"
                             loading="lazy"
-                            className="object-cover transition-all duration-500
-                             aspect-[9/5] group-hover:scale-105"
+                            className="object-cover transition-all duration-500 aspect-[9/5] group-hover:scale-105 shadow-lg hover:shadow-xl rounded-lg"
                           />
                         </InView>
                       </div>

@@ -26,15 +26,55 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                
+                const originalError = console.error;
+                const originalWarn = console.warn;
+                
+                console.error = function(...args) {
+                  const msg = String(args[0] || '');
+                  if (
+                    msg.includes('Hydration') || 
+                    msg.includes('hydration') || 
+                    msg.includes('jf-ext') ||
+                    msg.includes('server rendered HTML') ||
+                    msg.includes('client properties') ||
+                    msg.includes('tree hydrated')
+                  ) return;
+                  originalError.apply(console, args);
+                };
+                
+                console.warn = function(...args) {
+                  const msg = String(args[0] || '');
+                  if (
+                    msg.includes('Hydration') || 
+                    msg.includes('hydration') || 
+                    msg.includes('jf-ext') ||
+                    msg.includes('server rendered HTML')
+                  ) return;
+                  originalWarn.apply(console, args);
+                };
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
+          // enableSystem={false}
           disableTransitionOnChange
+        // forcedTheme="light"
         >
           <LanguageProvider>
             <HeroHeader />

@@ -55,6 +55,7 @@ const translations: Record<Language, Record<string, string>> = {
         // Navigation
         home: "Home",
         about: "About Us",
+        portfolio: "Portfolio",
         contact: "Contact Us",
         services: "Services",
 
@@ -146,6 +147,7 @@ const translations: Record<Language, Record<string, string>> = {
         // Navigation
         home: "الرئيسية",
         about: "من نحن",
+        portfolio: "الأعمال",
         contact: "اتصل بنا",
         services: "الخدمات",
 

@@ -16,6 +16,11 @@ export const NAV_LINKS: NavLink[] = [
     type: "scroll",
   },
   {
+    name: "Portfolio",
+    href: "/portfolio",
+    type: "route",
+  },
+  {
     name: "Contact Us",
     href: "#contact",
     type: "scroll",
@@ -31,6 +36,7 @@ export const NAV_LINKS: NavLink[] = [
 export const NAV_TRANSLATION_KEYS: Record<string, string> = {
   "Home": "home",
   "About Us": "about",
+  "Portfolio": "portfolio",
   "Contact Us": "contact",
   "Services": "services",
 };
