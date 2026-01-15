@@ -1,26 +1,54 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export const Logo = ({ className }: { className?: string }) => {
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use resolvedTheme to get the actual theme (handles 'system' preference)
+  const currentTheme = mounted ? resolvedTheme : 'dark';
+  const logoSrc = currentTheme === 'dark' ? '/ai-stack-dark.png' : '/ai-stack-light.png';
+
   return (
     <img
-      className="h-10 w-full rounded-md object-cover object-top grayscale transition-all duration-500 hover:grayscale-0 group-hover:h-[22.5rem] group-hover:rounded-xl"
-      src="/ai-stack.png"
-      alt="team member1"
+      className={cn(
+        "h-10 w-auto object-contain transition-all duration-500",
+        className
+      )}
+      src={logoSrc}
+      alt="AI Stack Logo"
       width="826"
-    // height="1239"
     />
   );
 };
 
 export const LogoStroke = ({ className }: { className?: string }) => {
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = mounted ? resolvedTheme : 'dark';
+  const logoSrc = currentTheme === 'dark' ? '/ai-stack-dark.png' : '/ai-stack-light.png';
+
   return (
     <img
-      className="h-10 w-full rounded-md object-cover object-top grayscale transition-all duration-500 hover:grayscale-0 group-hover:h-[22.5rem] group-hover:rounded-xl"
-      src="/ai-stack.png"
-      alt="team member2"
+      className={cn(
+        "h-10 w-auto object-contain transition-all duration-500",
+        className
+      )}
+      src={logoSrc}
+      alt="AI Stack Logo"
       width="826"
-    // height="1239"
     />
   );
 };

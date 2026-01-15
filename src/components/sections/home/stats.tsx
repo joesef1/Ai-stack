@@ -2,13 +2,36 @@
 import { ScrollView } from "@/components/scroll-view";
 import { motion } from "motion/react";
 import { useLanguage } from "@/contexts/language-context";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function StatsSection() {
   const { t } = useLanguage();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = mounted ? resolvedTheme : 'dark';
+  const logoSrc = currentTheme === 'dark' ? '/ai-stack-dark.png' : '/ai-stack-light.png';
 
   return (
-    <section className="py-12 md:py-20" id="stats">
-      <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
+    <section className="py-12 md:py-20 relative overflow-hidden" id="stats">
+      {/* Background Logo */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
+        <Image
+          src={logoSrc}
+          alt="AI Stack Logo Background"
+          width={400}
+          height={400}
+          className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain"
+        />
+      </div>
+
+      <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16 relative z-10">
         <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center">
           <ScrollView>
             <h2 className="text-4xl font-medium lg:text-5xl">

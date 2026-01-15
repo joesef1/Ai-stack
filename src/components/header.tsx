@@ -8,6 +8,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, NAV_TRANSLATION_KEYS } from "@/content/nav";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useLanguage } from "@/contexts/language-context";
 
 export const HeroHeader = () => {
@@ -143,8 +144,8 @@ export const HeroHeader = () => {
                 </ul>
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                <ThemeToggle />
                 <LanguageSwitcher />
-
               </div>
             </div>
           </div>

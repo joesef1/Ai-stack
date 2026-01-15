@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -71,10 +71,9 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          // enableSystem={false}
-          disableTransitionOnChange
-        // forcedTheme="light"
+          defaultTheme="dark"
+          enableSystem={true}
+          disableTransitionOnChange={false}
         >
           <LanguageProvider>
             <HeroHeader />
