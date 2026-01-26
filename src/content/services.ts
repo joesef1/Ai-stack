@@ -34,7 +34,7 @@ export const SERVICES_LIST = [
       "Educational Platforms",
       "Online Stores"
     ],
-    img: "/images/web.jpg",
+    img: "/images/web1.jpg",
     url: "/service-details/website-development",
     description:
       "Innovative website designs that boost credibility and enhance user experience."
